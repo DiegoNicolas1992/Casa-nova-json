@@ -1,1 +1,26 @@
-
+[
+  {
+    "id": 101,
+    "nombre": "Cafetera Express",
+    "desc": "Cafetera automática para espresso y cappuccino",
+    "precio": 120000,
+    "imagen": "cafetera.jpg",
+    "disponible": true
+  },
+  {
+    "id": 102,
+    "nombre": "Smart TV 50''",
+    "desc": "Televisor 4K UHD con sistema operativo Android TV",
+    "precio": 450000,
+    "imagen": "smarttv.jpg",
+    "disponible": true
+  },
+  {
+    "id": 103,
+    "nombre": "Juego de Sábanas Queen",
+    "desc": "Juego de sábanas 2 plazas de algodón 100%",
+    "precio": 30000,
+    "imagen": "sabanas.jpg",
+    "disponible": false
+  }
+]
