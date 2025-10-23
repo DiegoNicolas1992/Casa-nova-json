@@ -1,13 +1,19 @@
-// Importamos Express
-const express = require('express');
-const app = express();
-const fs = require('fs');
-const path = require('path');
+// Importamos módulos en formato ESM
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-// Middleware para procesar JSON
+// Configuración de rutas absolutas
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
 app.use(express.json());
 
-// RUTAS
+// ----------------------
+// RUTAS DE LA API
 // ----------------------
 
 // 1️⃣ GET - Obtener todos los usuarios
@@ -50,7 +56,11 @@ app.put('/productos/:id', (req, res) => {
   const data = JSON.parse(fs.readFileSync(filePath));
   const id = parseInt(req.params.id);
   const index = data.findIndex(p => p.id === id);
-  if (index === -1) return res.status(404).json({ mensaje: 'Producto no encontrado' });
+
+  if (index === -1) {
+    return res.status(404).json({ mensaje: 'Producto no encontrado' });
+  }
+
   data[index] = { ...data[index], ...req.body };
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
   res.json({ mensaje: 'Producto actualizado', producto: data[index] });
@@ -61,12 +71,15 @@ app.delete('/usuarios/:id', (req, res) => {
   const idUsuario = parseInt(req.params.id);
   const usuariosPath = path.join(__dirname, '../data/usuarios.json');
   const ventasPath = path.join(__dirname, '../data/ventas.json');
+
   const usuarios = JSON.parse(fs.readFileSync(usuariosPath));
   const ventas = JSON.parse(fs.readFileSync(ventasPath));
 
   const ventasUsuario = ventas.some(v => v.id_usuario === idUsuario);
   if (ventasUsuario) {
-    return res.status(400).json({ mensaje: 'No se puede eliminar el usuario, tiene ventas asociadas' });
+    return res
+      .status(400)
+      .json({ mensaje: 'No se puede eliminar el usuario, tiene ventas asociadas' });
   }
 
   const nuevosUsuarios = usuarios.filter(u => u.id !== idUsuario);
@@ -76,5 +89,5 @@ app.delete('/usuarios/:id', (req, res) => {
 
 // Servidor en puerto 3000
 app.listen(3000, () => {
-  console.log('Servidor corriendo en http://localhost:3000');
+  console.log('✅ Servidor corriendo en http://localhost:3000');
 });
