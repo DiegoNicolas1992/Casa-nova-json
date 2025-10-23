@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "API del sistema Casa Nova - gestión de usuarios, productos y ventas",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },
