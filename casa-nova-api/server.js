@@ -11,6 +11,12 @@ const __dirname = dirname(__filename);
 // ✅ Directorio correcto de la carpeta data
 const dataDir = path.join(__dirname, 'data');
 
+// Verifica que la carpeta data exista
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir);
+  console.log('📁 Carpeta "data" creada automáticamente');
+}
+
 const app = express();
 app.use(express.json());
 
@@ -119,3 +125,5 @@ app.delete('/usuarios/:id', (req, res) => {
 app.listen(3000, () => {
   console.log('✅ Servidor corriendo en http://localhost:3000');
 });
+
+export default app;
