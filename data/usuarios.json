@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "nombre": "Diego",
+    "apellido": "Cuello",
+    "email": "diego.cuello@example.com",
+    "contrasena": "1234abcd",
+    "activo": true
+  },
+  {
+    "id": 2,
+    "nombre": "María",
+    "apellido": "López",
+    "email": "maria.lopez@example.com",
+    "contrasena": "pass2025",
+    "activo": true
+  },
+  {
+    "id": 3,
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "email": "juan.perez@example.com",
+    "contrasena": "qwerty",
+    "activo": false
+  }
+]
