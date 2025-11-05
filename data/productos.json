@@ -1,26 +1,42 @@
 [
   {
-    "id": 101,
-    "nombre": "Cafetera Express",
-    "desc": "Cafetera automática para espresso y cappuccino",
-    "precio": 120000,
-    "imagen": "cafetera.jpg",
+    "id": 1,
+    "nombre": "Sillón Reclinable",
+    "descripcion": "Sillón tapizado con mecanismo reclinable.",
+    "precio": 250000,
+    "categoria": "hogar",
     "disponible": true
   },
   {
-    "id": 102,
-    "nombre": "Smart TV 50''",
-    "desc": "Televisor 4K UHD con sistema operativo Android TV",
-    "precio": 450000,
-    "imagen": "smarttv.jpg",
+    "id": 2,
+    "nombre": "Smart TV 50\" UHD",
+    "descripcion": "Televisor inteligente 4K con WiFi integrado.",
+    "precio": 480000,
+    "categoria": "electrónica",
     "disponible": true
   },
   {
-    "id": 103,
+    "id": 3,
+    "nombre": "Lámpara de Pie Moderna",
+    "descripcion": "Lámpara metálica con pantalla textil.",
+    "precio": 95000,
+    "categoria": "hogar",
+    "disponible": true
+  },
+  {
+    "id": 4,
+    "nombre": "Notebook Lenovo IdeaPad 15\"",
+    "descripcion": "Intel Core i5, 8GB RAM, SSD 512GB.",
+    "precio": 690000,
+    "categoria": "electrónica",
+    "disponible": true
+  },
+  {
+    "id": 5,
     "nombre": "Juego de Sábanas Queen",
-    "desc": "Juego de sábanas 2 plazas de algodón 100%",
-    "precio": 30000,
-    "imagen": "sabanas.jpg",
-    "disponible": false
+    "descripcion": "Algodón 100% - Blanco.",
+    "precio": 45000,
+    "categoria": "hogar",
+    "disponible": true
   }
 ]
