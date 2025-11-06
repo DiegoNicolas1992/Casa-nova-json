@@ -3,27 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrito de Compras - Casa Nova</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Carrito de compras</title>
   <link rel="stylesheet" href="styles/styles.css">
 </head>
-<body class="bg-gray-100">
-  <header class="bg-gray-800 text-white text-center py-4 text-2xl font-bold">
-    🛍️ Tu Carrito
+<body>
+  <header>
+    <h1>🛒 Tu carrito</h1>
   </header>
 
-  <main class="p-4">
-    <div id="carrito" class="grid gap-4"></div>
-    <div class="mt-6 text-center">
-      <p id="total" class="text-xl font-semibold mb-4"></p>
-      <button id="btnComprar" class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
-        Confirmar compra
-      </button>
-    </div>
+  <main>
+    <section id="carrito"></section>
+    <button id="limpiarCarrito" class="btn btn-danger">🧹 Limpiar carrito</button>
   </main>
 
-  <footer class="text-center mt-10 p-4 text-gray-600">
-    <a href="index.html" class="text-blue-500 font-semibold">⬅️ Volver a productos</a>
+  <footer>
+    <a href="index.html" class="btn">Volver a la tienda</a>
   </footer>
 
   <script src="scripts/carrito.js"></script>
