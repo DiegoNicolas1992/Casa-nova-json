@@ -1,3 +1,153 @@
+/* ====== ESTILOS GENERALES ====== */
 body {
-  font-family: system-ui, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  background: #1e90ff;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+h1, h2, h3 {
+  margin: 0.5rem 0;
+}
+
+main {
+  padding: 2rem;
+}
+
+/* ====== BOTONES ====== */
+.btn {
+  display: inline-block;
+  background: #1e90ff;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #0066cc;
+}
+
+.btn-danger {
+  background: #ff4444;
+}
+
+.btn-danger:hover {
+  background: #cc0000;
+}
+
+/* ====== PRODUCTOS ====== */
+.productos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.card p {
+  margin: 0.2rem 0;
+}
+
+/* ====== CANTIDAD ====== */
+.cantidad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.cantidad button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #1e90ff;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 0 0.5rem;
+  transition: 0.3s;
+}
+
+.cantidad button:hover {
+  background: #0066cc;
+}
+
+/* ====== CARRITO ====== */
+#carrito {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.item-carrito {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  flex-wrap: wrap;
+}
+
+.item-carrito img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-carrito h3 {
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.total {
+  text-align: right;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  color: #1e90ff;
+}
+
+footer {
+  margin-top: 2rem;
 }
