@@ -1,66 +1,54 @@
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-const contenedorCarrito = document.getElementById("carrito");
-const btnLimpiar = document.getElementById("limpiarCarrito");
+const carritoContainer = document.getElementById("carrito");
+const totalTexto = document.getElementById("total");
+const btnVaciar = document.getElementById("vaciar");
 
-function mostrarCarrito() {
-  contenedorCarrito.innerHTML = "";
+function renderCarrito() {
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  carritoContainer.innerHTML = "";
 
-  if (carrito.length === 0) {
-    contenedorCarrito.innerHTML = "<p>Tu carrito está vacío 🛒</p>";
-    return;
+  fetch("/productos")
+    .then(res => res.json())
+    .then(productos => {
+      let total = 0;
+      carrito.forEach(item => {
+        const producto = productos.find(p => p.id === item.id);
+        if (producto) {
+          total += producto.precio * item.cantidad;
+          const card = document.createElement("div");
+          card.classList.add("card");
+          card.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <h3>${producto.nombre}</h3>
+            <p>💲${producto.precio}</p>
+            <div>
+              <button onclick="cambiarCantidad(${producto.id}, -1)">-</button>
+              <span>${item.cantidad}</span>
+              <button onclick="cambiarCantidad(${producto.id}, 1)">+</button>
+            </div>
+          `;
+          carritoContainer.appendChild(card);
+        }
+      });
+      totalTexto.textContent = `💰 Total: $${total}`;
+    });
+}
+
+function cambiarCantidad(id, cambio) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  const producto = carrito.find(p => p.id === id);
+  if (producto) {
+    producto.cantidad += cambio;
+    if (producto.cantidad <= 0) {
+      carrito = carrito.filter(p => p.id !== id);
+    }
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    renderCarrito();
   }
-
-  carrito.forEach((prod, index) => {
-    const item = document.createElement("div");
-    item.classList.add("item-carrito");
-    item.innerHTML = `
-      <img src="images/${prod.imagen || 'default.jpg'}" alt="${prod.nombre}">
-      <h3>${prod.nombre}</h3>
-      <p>$${prod.precio}</p>
-      <div class="cantidad">
-        <button class="menos">-</button>
-        <span>${prod.cantidad}</span>
-        <button class="mas">+</button>
-      </div>
-      <p>Total: $${(prod.precio * prod.cantidad).toFixed(2)}</p>
-    `;
-
-    const span = item.querySelector("span");
-    item.querySelector(".mas").addEventListener("click", () => {
-      prod.cantidad++;
-      span.textContent = prod.cantidad;
-      guardarCarrito();
-      mostrarCarrito();
-    });
-    item.querySelector(".menos").addEventListener("click", () => {
-      if (prod.cantidad > 1) {
-        prod.cantidad--;
-        span.textContent = prod.cantidad;
-      } else {
-        carrito.splice(index, 1);
-      }
-      guardarCarrito();
-      mostrarCarrito();
-    });
-
-    contenedorCarrito.appendChild(item);
-  });
-
-  const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
-  const totalDiv = document.createElement("div");
-  totalDiv.classList.add("total");
-  totalDiv.innerHTML = `<h2>Total: $${total.toFixed(2)}</h2>`;
-  contenedorCarrito.appendChild(totalDiv);
 }
 
-function guardarCarrito() {
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-
-btnLimpiar.addEventListener("click", () => {
+btnVaciar.addEventListener("click", () => {
   localStorage.removeItem("carrito");
-  carrito = [];
-  mostrarCarrito();
+  renderCarrito();
 });
 
-mostrarCarrito();
+renderCarrito();
