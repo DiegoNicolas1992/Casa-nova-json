@@ -1,42 +1,26 @@
 [
   {
     "id": 1,
-    "nombre": "Sillón Reclinable",
-    "descripcion": "Sillón tapizado con mecanismo reclinable.",
+    "nombre": "Televisor LED 50''",
+    "categoria": "tecnología",
     "precio": 250000,
-    "categoria": "hogar",
-    "disponible": true
+    "stock": 10,
+    "imagen": "images/tv.jpg"
   },
   {
     "id": 2,
-    "nombre": "Smart TV 50\" UHD",
-    "descripcion": "Televisor inteligente 4K con WiFi integrado.",
-    "precio": 480000,
-    "categoria": "electrónica",
-    "disponible": true
+    "nombre": "Sofá de 3 plazas",
+    "categoria": "hogar",
+    "precio": 180000,
+    "stock": 5,
+    "imagen": "images/sofa.jpg"
   },
   {
     "id": 3,
-    "nombre": "Lámpara de Pie Moderna",
-    "descripcion": "Lámpara metálica con pantalla textil.",
-    "precio": 95000,
-    "categoria": "hogar",
-    "disponible": true
-  },
-  {
-    "id": 4,
-    "nombre": "Notebook Lenovo IdeaPad 15\"",
-    "descripcion": "Intel Core i5, 8GB RAM, SSD 512GB.",
-    "precio": 690000,
-    "categoria": "electrónica",
-    "disponible": true
-  },
-  {
-    "id": 5,
-    "nombre": "Juego de Sábanas Queen",
-    "descripcion": "Algodón 100% - Blanco.",
-    "precio": 45000,
-    "categoria": "hogar",
-    "disponible": true
+    "nombre": "Camisa de lino",
+    "categoria": "ropa",
+    "precio": 35000,
+    "stock": 15,
+    "imagen": "images/camisa.jpg"
   }
 ]
