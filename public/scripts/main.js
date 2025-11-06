@@ -1,59 +1,30 @@
-const contenedorProductos = document.getElementById("productos");
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+const contenedor = document.getElementById("productos");
 
-async function cargarProductos() {
-  const res = await fetch("http://localhost:3000/productos");
-  const productos = await res.json();
-  mostrarProductos(productos);
-}
-
-function mostrarProductos(productos) {
-  contenedorProductos.innerHTML = "";
-
-  productos.forEach(prod => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.innerHTML = `
-      <img src="images/${prod.imagen || 'default.jpg'}" alt="${prod.nombre}">
-      <h3>${prod.nombre}</h3>
-      <p>${prod.desc}</p>
-      <p><strong>$${prod.precio}</strong></p>
-      <div class="cantidad">
-        <button class="menos">-</button>
-        <span>1</span>
-        <button class="mas">+</button>
-      </div>
-      <button class="agregar">Agregar al carrito</button>
-    `;
-
-    let cantidad = 1;
-    const span = card.querySelector("span");
-    card.querySelector(".mas").addEventListener("click", () => {
-      cantidad++;
-      span.textContent = cantidad;
+fetch("/productos")
+  .then(res => res.json())
+  .then(data => {
+    data.forEach(prod => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.innerHTML = `
+        <img src="${prod.imagen}" alt="${prod.nombre}">
+        <h3>${prod.nombre}</h3>
+        <p>💲${prod.precio}</p>
+        <p>Categoría: ${prod.categoria}</p>
+        <button onclick="agregarAlCarrito(${prod.id})">Agregar al carrito</button>
+      `;
+      contenedor.appendChild(card);
     });
-    card.querySelector(".menos").addEventListener("click", () => {
-      if (cantidad > 1) cantidad--;
-      span.textContent = cantidad;
-    });
-
-    card.querySelector(".agregar").addEventListener("click", () => {
-      agregarAlCarrito(prod, cantidad);
-    });
-
-    contenedorProductos.appendChild(card);
   });
-}
 
-function agregarAlCarrito(producto, cantidad) {
-  const item = carrito.find(p => p.id === producto.id);
-  if (item) {
-    item.cantidad += cantidad;
+function agregarAlCarrito(id) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  const producto = carrito.find(p => p.id === id);
+  if (producto) {
+    producto.cantidad++;
   } else {
-    carrito.push({ ...producto, cantidad });
+    carrito.push({ id, cantidad: 1 });
   }
   localStorage.setItem("carrito", JSON.stringify(carrito));
   alert("Producto agregado al carrito 🛒");
 }
-
-cargarProductos();
