@@ -57,11 +57,51 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarCarrito();
   });
 
-  // 💳 Simular compra
-  btnComprar.addEventListener("click", () => {
-    alert("Compra realizada con éxito 🧾");
-    localStorage.removeItem("carrito");
-    mostrarCarrito();
+  // 💳 Enviar compra al backend con token JWT
+  btnComprar.addEventListener("click", async () => {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    if (carrito.length === 0) {
+      alert("Tu carrito está vacío 🛒");
+      return;
+    }
+
+    // 🪪 Token almacenado (por ejemplo después del login)
+    const token = localStorage.getItem("token");
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    if (!token || !usuario) {
+      alert("Por favor, iniciá sesión antes de comprar 🔐");
+      return;
+    }
+
+    const compra = {
+      id_usuario: usuario.id,
+      productos: carrito
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/comprar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify(compra)
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("✅ " + data.mensaje);
+        localStorage.removeItem("carrito");
+        mostrarCarrito();
+      } else {
+        alert("⚠️ Error: " + (data.error || "No se pudo completar la compra"));
+      }
+    } catch (error) {
+      alert("❌ Error de conexión con el servidor");
+      console.error(error);
+    }
   });
 
   mostrarCarrito();
