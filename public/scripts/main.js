@@ -1,65 +1,51 @@
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   const contenedor = document.getElementById("productos");
-  const res = await fetch("/productos");
-  const productos = await res.json();
+  const usuarioSpan = document.getElementById("usuario-nombre");
 
-  productos.forEach(p => {
-    const card = document.createElement("div");
-    card.classList.add("producto-card");
+  // 👋 Mostrar nombre del usuario si está logueado
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  if (usuario && usuario.nombre) {
+    usuarioSpan.textContent = `Hola, ${usuario.nombre} 👋`;
+  } else {
+    usuarioSpan.textContent = "Invitado";
+  }
 
-    card.innerHTML = `
-      <img src="${p.imagen}" alt="${p.nombre}" class="producto-img">
-      <h3>${p.nombre}</h3>
-      <p>Categoría: ${p.categoria}</p>
-      <p>Precio: $${p.precio.toLocaleString()}</p>
-      <div class="cantidad-control">
-        <button class="btn-restar" data-id="${p.id}">−</button>
-        <span id="cantidad-${p.id}" class="cantidad">1</span>
-        <button class="btn-sumar" data-id="${p.id}">+</button>
-      </div>
-      <button class="btn-agregar" data-id="${p.id}">Agregar al carrito</button>
-    `;
-
-    contenedor.appendChild(card);
+  // 🔐 Botón cerrar sesión
+  document.getElementById("btn-logout")?.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    alert("Sesión cerrada correctamente 👋");
+    window.location.href = "login.html";
   });
 
-  // 🔹 Control de cantidad en las cards
-  document.querySelectorAll(".btn-sumar").forEach(btn => {
-    btn.addEventListener("click", e => {
-      const id = e.target.dataset.id;
-      const span = document.getElementById(`cantidad-${id}`);
-      let cant = parseInt(span.textContent);
-      span.textContent = cant + 1;
+  // 🛒 Cargar productos desde el servidor
+  fetch("http://localhost:3000/productos")
+    .then(res => res.json())
+    .then(productos => {
+      productos.forEach(p => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+          <img src="${p.imagen}" alt="${p.nombre}">
+          <h3>${p.nombre}</h3>
+          <p>$${p.precio.toLocaleString()}</p>
+          <button class="btn-agregar">Agregar al carrito 🛒</button>
+        `;
+        card.querySelector(".btn-agregar").addEventListener("click", () => agregarAlCarrito(p));
+        contenedor.appendChild(card);
+      });
     });
-  });
 
-  document.querySelectorAll(".btn-restar").forEach(btn => {
-    btn.addEventListener("click", e => {
-      const id = e.target.dataset.id;
-      const span = document.getElementById(`cantidad-${id}`);
-      let cant = parseInt(span.textContent);
-      if (cant > 1) span.textContent = cant - 1;
-    });
-  });
-
-  // 🛒 Agregar productos al carrito
-  document.querySelectorAll(".btn-agregar").forEach(btn => {
-    btn.addEventListener("click", e => {
-      const id = parseInt(e.target.dataset.id);
-      const producto = productos.find(p => p.id === id);
-      const cantidad = parseInt(document.getElementById(`cantidad-${id}`).textContent);
-
-      let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-      const existente = carrito.find(item => item.id === id);
-
-      if (existente) {
-        existente.cantidad += cantidad;
-      } else {
-        carrito.push({ ...producto, cantidad });
-      }
-
-      localStorage.setItem("carrito", JSON.stringify(carrito));
-      alert(`${producto.nombre} agregado al carrito ✅`);
-    });
-  });
+  // 🧩 Agregar producto al carrito
+  function agregarAlCarrito(producto) {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const existe = carrito.find(p => p.id === producto.id);
+    if (existe) {
+      existe.cantidad++;
+    } else {
+      carrito.push({ ...producto, cantidad: 1 });
+    }
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    alert(`${producto.nombre} agregado al carrito 🛒`);
+  }
 });
