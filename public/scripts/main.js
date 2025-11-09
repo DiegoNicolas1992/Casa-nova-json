@@ -1,68 +1,50 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const productosContainer = document.getElementById("productos");
+document.addEventListener('DOMContentLoaded', () => {
+  const contenedor = document.getElementById('productos-container');
 
-  const productos = [
-    {
-      id: 1,
-      nombre: "Camisa Blanca",
-      precio: 15000,
-      imagen: "images/camisa.jpg"
-    },
-    {
-      id: 2,
-      nombre: "Pantalón Jeans",
-      precio: 22000,
-      imagen: "images/jeans.jpg"
-    },
-    {
-      id: 3,
-      nombre: "Zapatillas Urbanas",
-      precio: 35000,
-      imagen: "images/zapatillas.jpg"
-    },
-    {
-      id: 4,
-      nombre: "Abrigo de Invierno",
-      precio: 42000,
-      imagen: "images/abrigo.jpg"
-    }
-  ];
+  // Forzar que no se use caché
+  const url = `/productos?t=${new Date().getTime()}`;
 
-  function mostrarProductos() {
-    productos.forEach(p => {
-      const card = document.createElement("div");
-      card.classList.add("producto-card");
-      card.innerHTML = `
-        <img src="${p.imagen}" alt="${p.nombre}">
-        <h3>${p.nombre}</h3>
-        <p>$${p.precio.toLocaleString()}</p>
-        <button class="btn-agregar" data-id="${p.id}">Agregar al carrito</button>
-      `;
-      productosContainer.appendChild(card);
-    });
-  }
+  fetch(url)
+    .then(res => res.json())
+    .then(productos => {
+      contenedor.innerHTML = '';
 
-  function agregarAlCarrito(id) {
-    const producto = productos.find(p => p.id === id);
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    const existe = carrito.find(p => p.id === id);
+      productos.forEach(p => {
+        const card = document.createElement('div');
+        card.classList.add('producto-card');
+        card.innerHTML = `
+          <img src="${p.imagen}" alt="${p.nombre}">
+          <h3>${p.nombre}</h3>
+          <p>$${p.precio.toLocaleString()}</p>
+          <button class="agregar-btn" data-id="${p.id}">Agregar al carrito</button>
+        `;
+        contenedor.appendChild(card);
+      });
 
-    if (existe) {
-      existe.cantidad++;
-    } else {
-      carrito.push({ ...producto, cantidad: 1 });
-    }
-
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-    alert(`✅ ${producto.nombre} agregado al carrito`);
-  }
-
-  productosContainer.addEventListener("click", e => {
-    if (e.target.classList.contains("btn-agregar")) {
-      const id = parseInt(e.target.dataset.id);
-      agregarAlCarrito(id);
-    }
-  });
-
-  mostrarProductos();
+      const botones = document.querySelectorAll('.agregar-btn');
+      botones.forEach(btn => {
+        btn.addEventListener('click', e => {
+          const id = e.target.dataset.id;
+          agregarAlCarrito(id);
+        });
+      });
+    })
+    .catch(err => console.error('Error al cargar productos:', err));
 });
+
+function agregarAlCarrito(id) {
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  fetch(`/productos?t=${new Date().getTime()}`)
+    .then(res => res.json())
+    .then(productos => {
+      const producto = productos.find(p => p.id == id);
+      if (!producto) return alert('Producto no encontrado');
+
+      const existente = carrito.find(p => p.id == id);
+      if (existente) existente.cantidad++;
+      else carrito.push({ ...producto, cantidad: 1 });
+
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+      alert(`${producto.nombre} agregado al carrito ✅`);
+    });
+}
