@@ -57,53 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarCarrito();
   });
 
-  // 💳 Enviar compra al backend
-  btnComprar.addEventListener("click", async () => {
+  // 💳 Simular compra
+  btnComprar.addEventListener("click", () => {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
-    const token = localStorage.getItem("token");
-
-    if (!usuario || !token) {
-      alert("⚠️ Debes iniciar sesión para realizar una compra");
-      return;
-    }
-
     if (carrito.length === 0) {
-      alert("⚠️ El carrito está vacío");
+      alert("⚠️ No hay productos en el carrito.");
       return;
     }
 
-    // Confirmación
-    const confirmar = confirm("¿Deseas finalizar la compra?");
-    if (!confirmar) return;
-
-    const venta = {
-      id_usuario: usuario.id,
-      productos: carrito,
-      total: carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0)
-    };
-
-    try {
-      const res = await fetch("/comprar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify(venta)
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert("✅ Compra realizada con éxito 🧾");
-        localStorage.removeItem("carrito");
-        mostrarCarrito();
-      } else {
-        alert(`⚠️ Error: ${data.error}`);
-      }
-    } catch (error) {
-      alert("❌ Error de conexión con el servidor");
-    }
+    alert("✅ Compra realizada con éxito 🧾");
+    localStorage.removeItem("carrito");
+    mostrarCarrito();
   });
 
   mostrarCarrito();
