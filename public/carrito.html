@@ -1,6 +1,33 @@
-<div id="carrito"></div>
-<h3>Total: <span id="total">$0</span></h3>
-<button id="btn-limpiar">🧹 Limpiar carrito</button>
-<button id="btn-comprar">💳 Comprar</button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de Compras 🛍️</title>
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+  <!-- 🧭 Navegación -->
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="carrito.html" class="activo">Carrito</a>
+    <a href="login.html">Login</a>
+  </nav>
 
-<script src="scripts/carrito.js"></script>
+  <main>
+    <h1>Tu Carrito de Compras</h1>
+
+    <div id="carrito" class="carrito-contenedor"></div>
+
+    <div class="acciones-carrito">
+      <p>Total: <span id="total">$0</span></p>
+      <div class="botones">
+        <button id="btn-limpiar" class="btn-limpiar">🧹 Limpiar carrito</button>
+        <button id="btn-comprar" class="btn-comprar">💳 Comprar</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="scripts/carrito.js"></script>
+</body>
+</html>
