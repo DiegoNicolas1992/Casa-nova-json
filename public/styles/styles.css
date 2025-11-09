@@ -45,14 +45,13 @@ main {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* 🔧 Ajuste para imágenes del index */
+/* 🔧 Imagen de producto (index y catálogo) */
 .contenedor-productos img {
   width: 100%;
-  height: 180px;
-  object-fit: contain;
-  border-radius: 10px;
+  height: 140px; /* 🔽 Ajuste del tamaño más chico */
+  object-fit: cover; /* Mantiene proporción sin deformar */
+  border-radius: 10px 10px 0 0;
   background-color: #fff;
-  padding: 5px;
 }
 
 /* 🧾 Info del producto */
@@ -111,12 +110,14 @@ main {
 }
 
 .item-carrito img.carrito-img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
+  width: 80px; /* 🔽 Más pequeño */
+  height: 80px;
+  object-fit: cover;
   margin-right: 15px;
+  border-radius: 8px;
 }
 
+/* Info dentro del carrito */
 .item-carrito .info {
   flex-grow: 1;
 }
@@ -125,6 +126,7 @@ main {
   margin: 0 0 5px 0;
 }
 
+/* Controles de cantidad */
 .controles {
   display: flex;
   align-items: center;
