@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     totalSpan.textContent = `$${total.toLocaleString()}`;
   }
 
-  // ➕ ➖ Cambiar cantidad dentro del carrito
   contenedor.addEventListener("click", e => {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     if (e.target.classList.contains("btn-sumar")) {
@@ -51,13 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarCarrito();
   });
 
-  // 🧹 Limpiar carrito
   btnLimpiar.addEventListener("click", () => {
     localStorage.removeItem("carrito");
     mostrarCarrito();
   });
 
-  // 💳 Simular compra
   btnComprar.addEventListener("click", () => {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     if (carrito.length === 0) {
