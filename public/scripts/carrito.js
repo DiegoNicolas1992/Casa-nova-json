@@ -57,50 +57,52 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarCarrito();
   });
 
-  // 💳 Enviar compra al backend con token JWT
+  // 💳 Enviar compra al backend
   btnComprar.addEventListener("click", async () => {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    if (carrito.length === 0) {
-      alert("Tu carrito está vacío 🛒");
-      return;
-    }
-
-    // 🪪 Token almacenado (por ejemplo después del login)
-    const token = localStorage.getItem("token");
     const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const token = localStorage.getItem("token");
 
-    if (!token || !usuario) {
-      alert("Por favor, iniciá sesión antes de comprar 🔐");
+    if (!usuario || !token) {
+      alert("⚠️ Debes iniciar sesión para realizar una compra");
       return;
     }
 
-    const compra = {
+    if (carrito.length === 0) {
+      alert("⚠️ El carrito está vacío");
+      return;
+    }
+
+    // Confirmación
+    const confirmar = confirm("¿Deseas finalizar la compra?");
+    if (!confirmar) return;
+
+    const venta = {
       id_usuario: usuario.id,
-      productos: carrito
+      productos: carrito,
+      total: carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0)
     };
 
     try {
-      const res = await fetch("http://localhost:3000/comprar", {
+      const res = await fetch("/comprar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + token
+          "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(compra)
+        body: JSON.stringify(venta)
       });
 
       const data = await res.json();
-
       if (res.ok) {
-        alert("✅ " + data.mensaje);
+        alert("✅ Compra realizada con éxito 🧾");
         localStorage.removeItem("carrito");
         mostrarCarrito();
       } else {
-        alert("⚠️ Error: " + (data.error || "No se pudo completar la compra"));
+        alert(`⚠️ Error: ${data.error}`);
       }
     } catch (error) {
       alert("❌ Error de conexión con el servidor");
-      console.error(error);
     }
   });
 
