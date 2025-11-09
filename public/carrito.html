@@ -3,30 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrito de Compras 🛍️</title>
+  <title>Carrito - Casa Nova</title>
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-  <!-- 🧭 Navegación -->
-  <nav>
-    <a href="index.html">Inicio</a>
-    <a href="carrito.html" class="activo">Carrito</a>
-    <a href="login.html">Login</a>
-  </nav>
+  <header>
+    <h1>🛒 Tu Carrito</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="carrito.html" class="activo">Carrito</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
 
   <main>
-    <h1>Tu Carrito de Compras</h1>
-
-    <div id="carrito" class="carrito-contenedor"></div>
-
-    <div class="acciones-carrito">
-      <p>Total: <span id="total">$0</span></p>
-      <div class="botones">
-        <button id="btn-limpiar" class="btn-limpiar">🧹 Limpiar carrito</button>
-        <button id="btn-comprar" class="btn-comprar">💳 Comprar</button>
+    <section id="carrito" class="carrito-container"></section>
+    <div class="carrito-total">
+      <h3>Total: <span id="total">$0</span></h3>
+      <div class="botones-carrito">
+        <button id="btn-limpiar">🧹 Vaciar carrito</button>
+        <button id="btn-comprar">💳 Comprar</button>
       </div>
     </div>
   </main>
+
+  <footer>
+    <p>© 2025 Casa Nova - Todos los derechos reservados</p>
+  </footer>
 
   <script src="scripts/carrito.js"></script>
 </body>
