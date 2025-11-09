@@ -3,27 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrito - Casa Nova</title>
+  <title>🛒 Carrito - Casa Nova</title>
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
   <header>
-    <h1>🛒 Tu Carrito</h1>
+    <h1>🛒 Carrito de Compras</h1>
     <nav>
-      <a href="index.html">Inicio</a>
-      <a href="carrito.html" class="activo">Carrito</a>
-      <a href="login.html">Login</a>
+      <a href="index.html" style="color:white; text-decoration:none;">← Volver a productos</a>
     </nav>
   </header>
 
   <main>
-    <section id="carrito" class="carrito-container"></section>
-    <div class="carrito-total">
-      <h3>Total: <span id="total">$0</span></h3>
-      <div class="botones-carrito">
-        <button id="btn-limpiar">🧹 Vaciar carrito</button>
-        <button id="btn-comprar">💳 Comprar</button>
-      </div>
+    <section id="carrito"></section>
+
+    <div class="botones-carrito">
+      <h2>Total: <span id="total">$0</span></h2>
+      <button id="btn-limpiar">🧹 Limpiar carrito</button>
+      <button id="btn-comprar">💳 Comprar</button>
     </div>
   </main>
 
