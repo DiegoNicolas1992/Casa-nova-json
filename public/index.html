@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Casa Nova 🏠</title>
+  <title>Tienda Casa Nova 🛒</title>
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-  <header>
-    <h1>🛍️ Casa Nova</h1>
-    <div class="usuario-info">
-      <span id="usuario-nombre"></span>
-      <button id="btn-logout" class="logout-btn">Cerrar sesión 🔒</button>
-    </div>
-  </header>
+  <!-- 🧭 Barra de navegación -->
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="carrito.html">Carrito</a>
+    <a href="login.html">Login</a>
+  </nav>
 
-  <main>
-    <h2>Productos disponibles</h2>
-    <div id="productos" class="productos-container"></div>
-  </main>
+  <h1 style="text-align:center; margin-top:20px;">Bienvenido a Casa Nova</h1>
+
+  <!-- 🛍️ Contenedor de productos -->
+  <section id="productos"></section>
 
   <script src="scripts/main.js"></script>
 </body>
