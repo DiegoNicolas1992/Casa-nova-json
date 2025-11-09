@@ -1,115 +1,93 @@
-import express from "express";
-import fs from "fs";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import cors from "cors";
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import bcrypt from 'bcryptjs';
+import bodyParser from 'body-parser';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
-const SECRET = "clave_super_secreta";
 
-app.use(express.json());
-app.use(cors());
-app.use(express.static("public"));
+// Middleware
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname)); // permite acceder a /data y otros archivos
 
 // Rutas JSON
-const usuariosPath = "./data/usuarios.json";
-const productosPath = "./data/productos.json";
-const ventasPath = "./data/ventas.json";
+const usuariosPath = path.join(__dirname, 'data', 'usuarios.json');
+const productosPath = path.join(__dirname, 'data', 'productos.json');
+const ventasPath = path.join(__dirname, 'data', 'ventas.json');
 
-// ✅ Listar productos
-app.get("/productos", (req, res) => {
-  const productos = JSON.parse(fs.readFileSync(productosPath, "utf8"));
-  res.json(productos);
-});
-
-// ✅ Registrar nuevo usuario
-app.post("/usuarios", async (req, res) => {
-  const { nombre, apellido, email, contrasena } = req.body;
-  if (!nombre || !apellido || !email || !contrasena) {
-    return res.status(400).json({ error: "Faltan datos obligatorios" });
-  }
-
-  const usuarios = JSON.parse(fs.readFileSync(usuariosPath, "utf8"));
-  const existe = usuarios.find(u => u.email === email);
-  if (existe) return res.status(400).json({ error: "El email ya está registrado" });
-
-  const hashedPassword = await bcrypt.hash(contrasena, 10);
-  const nuevoUsuario = {
-    id: usuarios.length + 1,
-    nombre,
-    apellido,
-    email,
-    contrasena: hashedPassword,
-    activo: true
-  };
-
-  usuarios.push(nuevoUsuario);
-  fs.writeFileSync(usuariosPath, JSON.stringify(usuarios, null, 2));
-  res.status(201).json({ mensaje: "Usuario registrado con éxito" });
-});
-
-// ✅ Login con JWT
-app.post("/login", (req, res) => {
-  const { email, contrasena } = req.body;
-  const usuarios = JSON.parse(fs.readFileSync(usuariosPath, "utf8"));
-  const usuario = usuarios.find(u => u.email === email);
-
-  if (!usuario) return res.status(404).json({ error: "Usuario no encontrado" });
-  const valido = bcrypt.compareSync(contrasena, usuario.contrasena);
-  if (!valido) return res.status(401).json({ error: "Contraseña incorrecta" });
-
-  const token = jwt.sign(
-    { id: usuario.id, email: usuario.email },
-    SECRET,
-    { expiresIn: "1h" }
-  );
-
-  // ✅ devolvemos también el id y nombre
-  res.json({
-    mensaje: "Inicio de sesión correcto",
-    token,
-    usuario: { id: usuario.id, nombre: usuario.nombre, email: usuario.email }
+// Endpoint para obtener productos
+app.get('/productos', (req, res) => {
+  fs.readFile(productosPath, 'utf8', (err, data) => {
+    if (err) return res.status(500).json({ error: 'Error al leer productos' });
+    try {
+      const productos = JSON.parse(data);
+      res.json(productos);
+    } catch {
+      res.status(500).json({ error: 'Error al parsear productos' });
+    }
   });
 });
 
-// ✅ Middleware para verificar token
-function verificarToken(req, res, next) {
-  const header = req.headers["authorization"];
-  if (!header) return res.status(403).json({ error: "Token requerido" });
+// Registro de usuario
+app.post('/registro', (req, res) => {
+  const { nombre, email, contraseña } = req.body;
+  if (!nombre || !email || !contraseña)
+    return res.status(400).json({ error: 'Datos incompletos' });
 
-  const token = header.split(" ")[1];
-  try {
-    const decoded = jwt.verify(token, SECRET);
-    req.usuario = decoded;
-    next();
-  } catch {
-    res.status(401).json({ error: "Token inválido o expirado" });
-  }
-}
+  fs.readFile(usuariosPath, 'utf8', (err, data) => {
+    const usuarios = err ? [] : JSON.parse(data);
+    if (usuarios.find(u => u.email === email))
+      return res.status(400).json({ error: 'El usuario ya existe' });
 
-// ✅ Ruta de compra protegida
-app.post("/comprar", verificarToken, (req, res) => {
-  const { productos } = req.body;
+    const hashed = bcrypt.hashSync(contraseña, 10);
+    usuarios.push({ nombre, email, contraseña: hashed });
 
-  if (!productos || productos.length === 0) {
-    return res.status(400).json({ error: "Datos de compra incompletos" });
-  }
-
-  const ventas = JSON.parse(fs.readFileSync(ventasPath, "utf8"));
-  const nuevaVenta = {
-    id: ventas.length + 1,
-    id_usuario: req.usuario.id, // 🟢 se toma del token, no del body
-    productos,
-    total: productos.reduce((acc, p) => acc + p.precio * p.cantidad, 0),
-    fecha: new Date().toISOString()
-  };
-
-  ventas.push(nuevaVenta);
-  fs.writeFileSync(ventasPath, JSON.stringify(ventas, null, 2));
-  res.json({ mensaje: "Compra registrada con éxito", venta: nuevaVenta });
+    fs.writeFile(usuariosPath, JSON.stringify(usuarios, null, 2), err => {
+      if (err)
+        return res.status(500).json({ error: 'Error al guardar usuario' });
+      res.json({ mensaje: 'Usuario registrado correctamente' });
+    });
+  });
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+// Login de usuario
+app.post('/login', (req, res) => {
+  const { email, contraseña } = req.body;
+  if (!email || !contraseña)
+    return res.status(400).json({ error: 'Datos incompletos' });
+
+  fs.readFile(usuariosPath, 'utf8', (err, data) => {
+    if (err) return res.status(500).json({ error: 'Error al leer usuarios' });
+    const usuarios = JSON.parse(data);
+    const usuario = usuarios.find(u => u.email === email);
+    if (!usuario || !bcrypt.compareSync(contraseña, usuario.contraseña))
+      return res.status(401).json({ error: 'Credenciales inválidas' });
+    res.json({ mensaje: 'Login exitoso', usuario: { nombre: usuario.nombre, email: usuario.email } });
+  });
 });
+
+// Endpoint de venta (compra)
+app.post('/venta', (req, res) => {
+  const { productos, total } = req.body;
+  if (!productos || !Array.isArray(productos) || productos.length === 0 || !total)
+    return res.status(400).json({ error: 'Datos de compra incompletos' });
+
+  fs.readFile(ventasPath, 'utf8', (err, data) => {
+    const ventas = err ? [] : JSON.parse(data);
+    ventas.push({ productos, total, fecha: new Date().toISOString() });
+
+    fs.writeFile(ventasPath, JSON.stringify(ventas, null, 2), err => {
+      if (err) return res.status(500).json({ error: 'Error al guardar venta' });
+      res.json({ mensaje: 'Compra realizada con éxito' });
+    });
+  });
+});
+
+// Iniciar servidor
+app.listen(PORT, () => console.log(`✅ Servidor funcionando en http://localhost:${PORT}`));
