@@ -1,196 +1,148 @@
-/* 🌐 Estilos generales */
+/* 🎨 Estilos generales */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
+  background: #f4f4f4;
   color: #333;
 }
 
-header {
-  background-color: #222;
-  color: #fff;
+/* 🧭 Navbar */
+nav {
+  background: #222;
+  padding: 10px;
   text-align: center;
-  padding: 20px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 28px;
-  letter-spacing: 1px;
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-main {
-  padding: 20px;
+nav a:hover {
+  color: #00bcd4;
 }
 
-/* 🛒 Contenedor de productos */
-.contenedor-productos {
+/* 🛍️ Grid de productos */
+#productos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+  padding: 30px;
 }
 
-/* 💳 Tarjeta de producto */
 .card {
-  background-color: #fff;
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  transition: transform 0.2s ease;
 }
 
 .card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
 }
 
-/* 🔧 Imagen de producto (index y catálogo) */
-.contenedor-productos img {
+/* 🖼️ Imágenes de productos */
+.card img {
   width: 100%;
-  height: 140px; /* 🔽 Ajuste del tamaño más chico */
-  object-fit: cover; /* Mantiene proporción sin deformar */
-  border-radius: 10px 10px 0 0;
-  background-color: #fff;
+  height: 220px; /* 🔹 Tamaño uniforme */
+  object-fit: cover; /* 🔹 Recorta y ajusta sin deformar */
+  border-bottom: 1px solid #ddd;
 }
 
-/* 🧾 Info del producto */
-.card .info {
-  padding: 15px;
-}
-
+/* 📦 Info de productos */
 .card h3 {
-  margin-top: 0;
-  font-size: 20px;
-  color: #222;
+  margin: 10px 0 5px;
 }
 
 .card p {
-  color: #555;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
-.card .precio {
-  font-weight: bold;
-  color: #007bff;
-  font-size: 18px;
-}
-
-/* 🛒 Botón Agregar al carrito */
-.btn-agregar {
-  background-color: #007bff;
-  color: white;
+.card button {
+  background: #00bcd4;
   border: none;
-  padding: 10px 14px;
+  padding: 10px 15px;
+  color: white;
   border-radius: 8px;
+  margin: 10px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  width: 100%;
+  transition: background 0.2s;
 }
 
-.btn-agregar:hover {
-  background-color: #0056b3;
+.card button:hover {
+  background: #0097a7;
 }
 
-/* 🛍️ Carrito */
+/* 🛒 Carrito */
 #carrito {
-  max-width: 800px;
-  margin: 30px auto;
-  background: #fff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .item-carrito {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
+  justify-content: space-between;
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.item-carrito img.carrito-img {
-  width: 80px; /* 🔽 Más pequeño */
-  height: 80px;
-  object-fit: cover;
-  margin-right: 15px;
+.item-carrito img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* 🔹 Asegura que la camisa no se vea estirada */
   border-radius: 8px;
 }
 
-/* Info dentro del carrito */
 .item-carrito .info {
-  flex-grow: 1;
+  flex: 1;
+  padding-left: 10px;
 }
 
 .item-carrito h4 {
-  margin: 0 0 5px 0;
-}
-
-/* Controles de cantidad */
-.controles {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  margin: 0 0 5px;
 }
 
 .controles button {
-  background-color: #007bff;
-  color: #fff;
+  background: #00bcd4;
   border: none;
-  padding: 6px 10px;
+  color: white;
+  padding: 5px 10px;
+  margin: 0 5px;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .controles button:hover {
-  background-color: #0056b3;
+  background: #0097a7;
 }
 
-/* 💰 Total */
-.total {
-  text-align: right;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-/* 🧹 Botones carrito */
-.botones-carrito {
-  display: flex;
-  justify-content: space-between;
+/* 💳 Total y botones */
+.total-container {
+  text-align: center;
   margin-top: 20px;
 }
 
 #btn-limpiar, #btn-comprar {
-  background-color: #28a745;
+  background: #333;
   color: white;
+  padding: 10px 20px;
+  margin: 10px;
   border: none;
-  padding: 10px 18px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.2s ease;
-}
-
-#btn-limpiar {
-  background-color: #dc3545;
 }
 
 #btn-limpiar:hover {
-  background-color: #a71d2a;
+  background: #b71c1c;
 }
 
 #btn-comprar:hover {
-  background-color: #1e7e34;
-}
-
-/* ✅ Mensaje de éxito */
-.mensaje-exito {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-  padding: 12px;
-  border-radius: 8px;
-  text-align: center;
-  margin-top: 20px;
+  background: #2e7d32;
 }
