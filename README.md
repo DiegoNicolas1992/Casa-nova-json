@@ -1,58 +1,19 @@
-# 🏠 Casa Nova JSON - 3° Entrega
+🚀 Cuarta Entrega — Seguridad y Conexión Completa
 
-Proyecto full stack con Node.js y frontend HTML/CSS/JS, que simula una tienda online conectada a un backend con Express.
+En esta última etapa del proyecto Casa Nova JSON, se implementaron las siguientes mejoras:
 
-## 🚀 Funcionalidades
+🔐 Encriptación de contraseñas con bcryptjs para proteger los datos de los usuarios.
 
-- Listado de productos a la venta.
-- Filtro por categoría o tipo de producto.
-- Carrito de compras con almacenamiento en `localStorage`.
-- Generación de orden de compra en el backend (`ventas.json`).
-- Conexión entre frontend y servidor mediante modelo monorepo.
+🪪 Autenticación con JWT (JSON Web Token) para validar el inicio de sesión y asegurar rutas protegidas como la compra.
 
-## ⚙️ Instrucciones para ejecutar
+🧠 Estructura monorepo completa, integrando backend (Express) y frontend (HTML, JS y CSS) en una sola aplicación.
 
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/diegonicolas1992/casa-nova-json
-Entrar a la carpeta del proyecto:
+🛒 Carrito de compras funcional, con persistencia mediante localStorage y opción de vaciar, modificar o confirmar compra.
 
-bash
-Copiar código
-cd casa-nova-json
-Instalar dependencias:
+📦 Gestión de datos dinámica a través de archivos JSON (usuarios.json, productos.json, ventas.json).
 
-bash
-Copiar código
-npm install
-Ejecutar el servidor:
+🧾 Registro de ventas automático al finalizar la compra.
 
-bash
-Copiar código
-node server.js
-Abrir en el navegador:
-http://localhost:3000
+💅 Interfaz mejorada, con imágenes ajustadas, botones interactivos y diseño limpio.
 
-📂 Estructura del proyecto
-pgsql
-Copiar código
-casa-nova-json/
-│
-├── data/
-│   ├── productos.json
-│   ├── usuarios.json
-│   └── ventas.json
-│
-├── public/
-│   ├── index.html
-│   ├── carrito.html
-│   ├── scripts/
-│   │   ├── main.js
-│   │   └── carrito.js
-│   └── styles/
-│       └── styles.css
-│
-├── server.js
-├── package.json
-└── README.md
-
+✅ El proyecto cumple con todos los requisitos planteados para la cuarta entrega y representa un sistema funcional de e-commerce conectado a un backend seguro y organizado.
