@@ -2,14 +2,17 @@
   "name": "casa-nova-api",
   "version": "1.0.0",
   "description": "API del sistema Casa Nova - gestión de usuarios, productos y ventas",
-  "main": "servidor.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node servidor.js"
+    "start": "node server.js"
   },
   "author": "Diego Cuello",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "fs-extra": "^11.2.0"
   }
 }
